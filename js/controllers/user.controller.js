@@ -3,7 +3,7 @@
  */
 angular
     .module("app")
-    .controller("userCtrl",["$scope","userService",function($scope,userService) {
+    .controller("userCtrl",["$scope","userService","infoMessage",function($scope,userService,infoMessage) {
         //users
 
 
@@ -20,10 +20,11 @@ angular
             userService.updateUser(user)
                 .then(function (data) {
                     console.log("User update successfull");
+                    infoMessage.success("User update successfull");
                     $scope.$emit("editing");
                 })
                 .catch(function (err_data) {
-                    console.log("UpdatedError: "+err_data.status +" "+ err_data.statusText);
+                    infoMessage.error("UpdatedError: "+err_data.status +" "+ err_data.statusText);
                 });
 
 
@@ -33,11 +34,11 @@ angular
         $scope.deleteUser = function (user) {
             userService.deleteUser(user)
                 .then(function (data) {
-                    console.log("User delete successfull");
+                    infoMessage.success("User delete successfull");
                     $scope.$emit("delete");
                 })
                 .catch(function (err_data) {
-                    console.log("DeleteError: "+err_data.status +" "+ err_data.statusText);
+                    infoMessage.error("DeleteError: "+err_data.status +" "+ err_data.statusText);
                 });
 
 

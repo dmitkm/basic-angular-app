@@ -4,7 +4,7 @@
 
 angular
     .module("app")
-    .controller("usersCtrl",["$scope","userService", function($scope,userService){
+    .controller("usersCtrl",["$scope","userService","infoMessage", function($scope,userService,infoMessage){
         $scope.users=null;
         $scope.newUser={
             firstName:"",
@@ -54,10 +54,11 @@ angular
                 .then(function(){
                     console.log("Add successfull!");
                     $scope.newUser={};
+                    infoMessage.success("Add successfull!");
                     $scope.getUsers();
                 })
                 .catch(function(err_data){
-                    console.log("AddUserError: "+err_data.status +" :"+ err_data.statusText);
+                    infoMessage.error("AddUserError: "+err_data.status +" :"+ err_data.statusText);
                 });
 
 
