@@ -1,0 +1,21 @@
+{
+  "name": "otask",
+  "description": "first app",
+  "main": "main.js",
+  "authors": [
+    "dmitkm <karmazindimka@gmail.com>"
+  ],
+  "license": "ISC",
+  "moduleType": [],
+  "homepage": "",
+  "ignore": [
+    "node_modules",
+    "bower_components",
+    "bower"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.3.6",
+    "angular-animate": "~1.5.3",
+    "angular": "~1.5.3"
+  }
+}
