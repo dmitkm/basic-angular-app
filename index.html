@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+<head>
+    <meta charset="UTF-8">
+    <title>o</title>
+    <link rel="stylesheet" href="bower/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.1/animate.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="bower/angular/angular.min.js"></script>
+    <script src="bower/angular-animate/angular-animate.js"></script>
+
+     <script src="main.js"></script>
+    <script src="js/factories/user-data.service.js"></script>
+    <script src="js/controllers/users.controller.js"></script>
+    <script src="js/controllers/user.controller.js"></script>
+    <script src="js/filters/data.filter.js"></script>
+
+
+</head>
+<body ng-controller="mainCtrl">
+
+<div class="container" ng-controller="usersCtrl">
+    <div class="row">
+            <div class="alert alert-success" role="alert">
+            </div>
+            <form>
+                <div class="form-group">
+                    <label for="filter">Search:</label>
+                    <input type="text" class="form-control" ng-model="query" id="filter" placeholder="Searching by name,email...">
+                </div>
+                <div class="form-group">
+                    <div class="checkbox">
+                        <label >
+                            <input type="checkbox" ng-model="sysGenerate">Show system generated entries
+                        </label>
+                    </div>
+                </div>
+                <button type="button" class="btn btn-success" ng-click="userPanel=true" data-toggle="modal" data-target=".bs-example-modal-sm">Add new</button>
+            </form>
+        <br>
+
+
+        <div class="formBox" ng-if="userPanel">
+            <div class="close" ng-click="showForm()"></div>
+            <h3>Add user info</h3>
+            <form name='addForm' novalidate ng-submit="addUser()">
+                <div class="form-group">
+                    <label for="name">Name:</label>
+                    <input type="text" ng-model="newUser.firstName" class="form-control" id="name" required placeholder="Enter your name...">
+                </div>
+                <div class="form-group">
+                    <label for="lastname">Last name:</label>
+                    <input type="text" ng-model="newUser.lastName" class="form-control" id="lastname" required placeholder="Enter your second name..">
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone number:</label>
+                    <input type="text" phone-plsh ng-model="newUser.phone" class="form-control" id="phone" required placeholder="Your phone number">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" ng-model="newUser.email" class="form-control" id="email" required placeholder="Email...">
+                </div>
+                <button type="submit" class="btn btn-primary" ng-disabled="addForm.$invalid" >ADD USER</button>
+            </form>
+        </div>
+
+
+            <table class="table table-striped">
+                <tr>
+                    <th>id</th>
+                    <th ng-click="sort(name)">Name<span></span></th>
+                    <th>Last name</th>
+                    <th>Phone number</th>
+                    <th>Email</th>
+                    <th>regData</th>
+                    <th></th>
+                </tr>
+                <tr ng-repeat="user in users|filter:{$:query,systemGenerated:!sysGenerate}|orderBy:sortField:reverse" ng-controller="userCtrl" >
+                        <td>
+                            <div>{{$index+1}}</div>
+                        </td>
+                        <td ng-click="edit()">
+                            <div ng-if="!isEditable">{{user.firstName}}</div>
+                            <div ng-if="isEditable"><input type="text" value="user.firstName" ng-model="user.firstName"></div>
+                        </td>
+                        <td ng-click="edit()">
+                            <div ng-if="!isEditable">{{user.lastName}}</div>
+                            <div ng-if="isEditable"><input type="text" value="user.lastName" ng-model="user.lastName"></div>
+
+                        </td>
+                        <td ng-click="edit()">
+                            <div ng-if="!isEditable">{{user.telNumber}}</div>
+                            <div ng-if="isEditable"><input type="text" value="user.telNumber" ng-model="user.telNumber"></div>
+                        </td>
+                        <td ng-click="edit()">
+                            <div ng-if="!isEditable">{{user.email}} </div>
+                            <div ng-if="isEditable"><input type="email" ng-model="user.email"></div>
+                        </td>
+                        <td>
+                            {{user.regDate|dataFilter}}
+                        </td>
+                        <td class="buttons">
+                            <button ng-if="isEditable" class="btn btn-info" ng-click="editUserInfo(user)">Edit</button>
+                            <button class="btn btn-danger" ng-click="deleteUser(user)">Delete</button>
+                        </td>
+                </tr>
+            </table>
+    </div>
+</div>
+
+
+    <script src="bower/jquery/dist/jquery.min.js"></script>
+    <script src="bower/bootstrap/dist/js/bootstrap.min.js"></script>
+</body>
+</html>
+
+
