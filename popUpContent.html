@@ -1,0 +1,26 @@
+<div id="popUpMsg-bg" class="animate-show" ng-show="showPopUp" >
+
+    <div class="content">
+         <div class="close" ng-click="showPopUp=false"></div>
+            <h3>Add user info</h3>
+            <form name='addForm' novalidate ng-submit="addUser()">
+                <div class="form-group">
+                    <label for="name">Name:</label>
+                    <input type="text" ng-model="newUser.firstName" class="form-control" id="name" required placeholder="Enter your name...">
+                </div>
+                <div class="form-group">
+                    <label for="lastname">Last name:</label>
+                    <input type="text" ng-model="newUser.lastName" class="form-control" id="lastname" required placeholder="Enter your second name..">
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone number:</label>
+                    <input type="text" phone-plsh ng-model="newUser.phone" class="form-control" id="phone" required placeholder="Your phone number">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" ng-model="newUser.email" class="form-control" id="email" required placeholder="Email...">
+                </div>
+                <button type="submit" class="btn btn-primary" ng-disabled="addForm.$invalid" >ADD USER</button>
+            </form>
+    </div>
+</div>

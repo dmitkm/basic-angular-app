@@ -13,6 +13,8 @@ angular
         return service;
         
         function successMessage (message) {
+
+           // var type=message.search(/delete/i)!= -1?'error':'success';
              $rootScope.msg={
                 text : message,
                 type : "success"

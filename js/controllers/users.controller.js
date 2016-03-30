@@ -4,8 +4,10 @@
 
 angular
     .module("app")
-    .controller("usersCtrl",["$scope","userService","infoMessage", function($scope,userService,infoMessage){
+    .controller("usersCtrl",["$scope","userService","infoMessage","$window", function($scope,userService,infoMessage,$window){
+        $scope.showPopUp=false;
         $scope.users=null;
+        $scope.selectedId=-1;
         $scope.newUser={
             firstName:"",
             lastName: "",
@@ -13,15 +15,10 @@ angular
             phone:    ""
         };
 
-
-        //show form for adding new Users
-        $scope.showForm=function(){
-            if($scope.userPanel==false){
-                $scope.userPanel=true;
-            }else{
-                $scope.userPanel=false;
-            }
+        $scope.edit = function(id) {
+            $scope.selectedId = id;
         };
+
 
         function init(){
             console.log("init()");
@@ -56,6 +53,8 @@ angular
                     $scope.newUser={};
                     infoMessage.success("Add successfull!");
                     $scope.getUsers();
+                    closePopUp();
+                    $window.scrollTo(0, 0);
                 })
                 .catch(function(err_data){
                     infoMessage.error("AddUserError: "+err_data.status +" :"+ err_data.statusText);
@@ -64,15 +63,40 @@ angular
 
         };
 
+        //update user
+        $scope.editUserInfo = function (user) {
+
+            userService.updateUser(user)
+                .then(function (data) {
+                    console.log("User update successfull");
+                    infoMessage.success("User update successfull");
+                    $scope.getUsers();
+                    $window.scrollTo(0, 0);
+                })
+                .catch(function (err_data) {
+                    infoMessage.error("UpdatedError: "+err_data.status +" "+ err_data.statusText);
+                });
+            $scope.selectedId=-1;
+        };
+
+        //delete user
+        $scope.deleteUser = function (user) {
+            userService.deleteUser(user)
+                .then(function (data) {
+                    infoMessage.success("User delete successfull");
+                    $scope.getUsers();
+                    $window.scrollTo(0, 0);
+                })
+                .catch(function (err_data) {
+                    infoMessage.error("DeleteError: "+err_data.status +" "+ err_data.statusText);
+                });
+
+        };
+
         init();
 
-
-        $scope.$on("editing",function(){
-            $scope.getUsers();
-        });
-        $scope.$on("delete",function(){
-            $scope.getUsers();
-        });
-
+        function closePopUp (){
+            $scope.showPopUp=false;
+        }
 
     }]);
